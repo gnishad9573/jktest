@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ganesh
+      POSTGRES_PASSWORD: Ganesh254
+      POSTGRES_DB: booksdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+  api:
+    build: .
+    depends_on:
+      - db
+      - ollama
+    environment:
+      DATABASE_URL: postgresql://user:password@db/booksdb
+      OLLAMA_API_URL: http://ollama:11434
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:
+  ollama_data:
