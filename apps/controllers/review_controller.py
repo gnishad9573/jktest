@@ -41,8 +41,8 @@ class ReviewController:
         if not book_exists:
             raise HTTPException(status_code=404, detail="Book not found")
 
-        summary = await self.service.get_book_summary(book_id)
-        if not summary or summary["review_count"] == 0:
+        review_summary = await self.service.get_book_summary(book_id)
+        if not review_summary or review_summary["review_count"] == 0:
             raise HTTPException(status_code=404, detail="No reviews available for this book")
 
-        return ReviewSummary(review_count=summary["review_count"], average_rating=summary["average_rating"])
+        return ReviewSummary(summary=review_summary["summary"],review_count=review_summary["review_count"], average_rating=review_summary["average_rating"])
