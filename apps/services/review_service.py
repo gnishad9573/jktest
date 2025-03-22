@@ -32,8 +32,9 @@ class ReviewService:
             raise ValueError("Book not found")
         
         review_count, avg_rating = await self.review_repo.get_summary_stats(book_id)
-        return {
+        result = {
             "summary": book.summary,
             "review_count": review_count if review_count is not None else 0,
             "average_rating": float(avg_rating) if avg_rating is not None else None
         }
+        return result
