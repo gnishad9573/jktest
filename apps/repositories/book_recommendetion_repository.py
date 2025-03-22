@@ -58,7 +58,7 @@ class BookRecommendetion:
         query = select(Book.id,Book.title, Book.author, Book.genre, Book.summary).where(Book.id.in_(recommended_books))
         result = await self.db.execute(query)
         
-        return [{"title": row[0], "author": row[1], "genre": row[2]} for row in result.fetchall()]
+        return [{"title": row[1], "author": row[2], "genre": row[3]} for row in result.fetchall()]
 
 
 
